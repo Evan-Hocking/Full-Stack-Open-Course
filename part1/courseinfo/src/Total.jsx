@@ -1,8 +1,11 @@
+import Sum from './tools.js'
+
 const Total = (props) => {
+    const exercises = props.parts.map(value => value.exercises)
 
     return (
         <>
-        <p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3}</p>
+        <p>Number of exercises {Sum(exercises)}</p>
         </>
     )
 }

@@ -1,17 +1,11 @@
+import Part from "./Part.jsx"
 const Content = (props) => {
 
     return (
         <>
-            
-            <p>
-                {part1} {exercises1}
-            </p>
-            <p>
-                {part2} {exercises2}
-            </p>
-            <p>
-                {part3} {exercises3}
-            </p>
+            {props.parts.map((part) => (
+                <Part key={part.name} part={part.name} exercise={part.exercises} />
+            ))}
         </>
     )
 }
