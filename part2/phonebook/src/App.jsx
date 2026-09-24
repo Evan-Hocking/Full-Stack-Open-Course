@@ -1,23 +1,22 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+
 import Number from './components/Number'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import PBService from './components/phonebookservice'
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('/api/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        console.log(typeof response.data)
-        console.log(response.data)
-        setPersons(response.data)
+    PBService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
-  }, [])
+    },
+    [])
 
 
 
