@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PBService from './phonebookservice'
 const PersonForm = ({  persons, setPersons, }) => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
@@ -9,13 +10,20 @@ const PersonForm = ({  persons, setPersons, }) => {
             const personObject = {
                 name: newName,
                 number: newNumber,
-                id: crypto.randomUUID(),
             }
-            setPersons(persons.concat(personObject))
-            setNewName('')
-            setNewNumber('')
+            PBService.create(personObject).then(returnedPerson => {
+                setPersons(persons.concat(returnedPerson))
+                setNewName('')
+                setNewNumber('')
+            })
         } else {
-            alert(`${newName} is already added to the phonebook`)
+            const existingPerson = persons.find(person => person.name === newName);
+            const updatedPerson = { ...existingPerson, number: newNumber };
+            PBService.update(existingPerson.id, updatedPerson).then(returnedPerson => {
+                setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
+                setNewName('')
+                setNewNumber('')
+            })
         }
     }
     const handleNameChange = (event) => {

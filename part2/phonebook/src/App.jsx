@@ -22,7 +22,11 @@ const App = () => {
 
 
   const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
-
+  const deletePerson = (id) => {
+    PBService.deleteperson(id).then(() => {
+      setPersons(persons.filter(person => person.id !== id))
+    }) 
+  };
   return (
     <div>
       <h1>Phonebook</h1>
@@ -34,7 +38,7 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {filteredPersons.map((person) => (
-          <Number key={person.id} name={person.name} number={person.number} />
+          <Number key={person.id} name={person.name} number={person.number} deletePerson={deletePerson} id={person.id} />
         ))}
       </ul>
     </div>
