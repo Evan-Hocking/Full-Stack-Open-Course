@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import PBService from './phonebookservice'
-const PersonForm = ({  persons, setPersons, }) => {
+import PBService from '../services/phonebookservice'
+const PersonForm = ({  persons, setPersons, setMessage, setMessagetype }) => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const addPerson = (event) => {
@@ -15,6 +15,9 @@ const PersonForm = ({  persons, setPersons, }) => {
                 setPersons(persons.concat(returnedPerson))
                 setNewName('')
                 setNewNumber('')
+                const newMessage = `Added ${returnedPerson.name}`
+                setMessage(newMessage)
+                setMessagetype('success')
             })
         } else {
             const existingPerson = persons.find(person => person.name === newName);
@@ -23,6 +26,9 @@ const PersonForm = ({  persons, setPersons, }) => {
                 setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
                 setNewName('')
                 setNewNumber('')
+                const newMessage = `Updated ${returnedPerson.name}`
+                setMessage(newMessage)
+                setMessagetype('success')
             })
         }
     }
