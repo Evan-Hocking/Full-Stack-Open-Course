@@ -5,6 +5,7 @@ import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import Notification from './components/Notification'
 import PBService from './services/phonebookservice'
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -18,7 +19,7 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
       })
-    },
+  },
     [])
 
 
@@ -26,10 +27,30 @@ const App = () => {
 
   const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
   const deletePerson = (id) => {
-    PBService.deleteperson(id).then(() => {
-      setPersons(persons.filter(person => person.id !== id))
-    }) 
+    PBService
+      .deleteperson(id).then(() => {
+        setPersons(persons.filter(person => person.id !== id))
+        setMessage(`'${persons.find(person => person.id === id).name}' has been deleted`)
+        setMessagetype('success')
+        setPersons(persons.filter(n => n.id !== id))
+        setTimeout(() => {
+          setMessage(null)
+          setMessagetype(null)
+        }, 5000)
+      })
+      .catch(() => {
+        setMessage(`Information of '${persons.find(person => person.id === id).name}' has already been deleted from the server`)
+        setMessagetype('error')
+        setPersons(persons.filter(n => n.id !== id))
+        setTimeout(() => {
+          setMessage(null)
+          setMessagetype(null)
+        }, 5000)
+      })
   };
+
+
+
   return (
     <div>
       <h1>Phonebook</h1>

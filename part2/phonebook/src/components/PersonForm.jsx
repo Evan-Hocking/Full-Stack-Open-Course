@@ -18,6 +18,10 @@ const PersonForm = ({  persons, setPersons, setMessage, setMessagetype }) => {
                 const newMessage = `Added ${returnedPerson.name}`
                 setMessage(newMessage)
                 setMessagetype('success')
+                setTimeout(()=> {
+                    setMessage(null)
+                    setMessagetype(null)
+                }, 5000)
             })
         } else {
             const existingPerson = persons.find(person => person.name === newName);
@@ -29,6 +33,10 @@ const PersonForm = ({  persons, setPersons, setMessage, setMessagetype }) => {
                 const newMessage = `Updated ${returnedPerson.name}`
                 setMessage(newMessage)
                 setMessagetype('success')
+                setTimeout(()=> {
+                    setMessage(null)
+                    setMessagetype(null)
+                },5000)
             })
         }
     }
